@@ -8,17 +8,22 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity extends AppCompatActivity {
     EditText editTextText,editTextText2;
     ImageView imageView;
     FirebaseAuth firebaseAuth;
+    DatabaseReference rootref,demoref;
+    TextView textView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,7 +31,18 @@ public class MainActivity extends AppCompatActivity {
         editTextText2=findViewById(R.id.editTextText2);
         editTextText=findViewById(R.id.editTextText);
         imageView=findViewById(R.id.imageView6);
+        textView=findViewById(R.id.textView2);
+        rootref = FirebaseDatabase.getInstance().getReference();
+        demoref = rootref.child("demo");
+
         firebaseAuth=FirebaseAuth.getInstance();
+        textView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), signup.class);
+ startActivity(intent);
+            }
+        });
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -34,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
 
     public void register() {
         String gmail = editTextText2.getText().toString().trim();
@@ -49,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
                     Toast.makeText(MainActivity.this, "Reg comp", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(getApplicationContext(), signup.class);
+                    Intent intent = new Intent(getApplicationContext(), android.R.menu.class);
                     startActivity(intent);
 
                 }
